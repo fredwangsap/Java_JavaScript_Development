@@ -1,0 +1,3 @@
+* [set up maven proxy](https://wiki.wdf.sap.corp/wiki/display/CloudPD/Set+Proxy+for+Maven+Import)
+* [how to enable code completion in the Intellij IDEA for UI5 XML view](https://wiki.wdf.sap.corp/wiki/display/CloudPD/How+to+enable+code+completion+in+the+Intellij+IDEA+for+UI5+XML+view)
+* [debug in the Intellij](https://www.eclipse.org/jetty/documentation/9.2.8.v20150217/debugging-with-intellij.html)
