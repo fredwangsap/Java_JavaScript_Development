@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--<parent>-->
+    <!--<groupId>com.sap.cloud.sample</groupId>-->
+    <!--<artifactId>sdk-samples-parent</artifactId>-->
+    <!--<version>1.0.0</version>-->
+    <!--<relativePath>..</relativePath>-->
+    <!--</parent>-->
+    <groupId>com.sap.cloud.sample</groupId>
+    <artifactId>hello-world</artifactId>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>openui5</artifactId>
+            <version>1.28.16</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <packaging>war</packaging>
+
+
+    <properties>
+        <jdk.version>1.7</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sap.hcp.sdk.version>2.30.11.1</sap.hcp.sdk.version>
+        <maven.compiler.version>3.3</maven.compiler.version>
+        <sap.ui5.version>2.34</sap.ui5.version>
+        <my.war>${project.build.directory}</my.war>
+    </properties>
+
+    <description>This is a simple HelloWorld Web application.</description>
+    <licenses>
+        <license>
+            <name>SAP DEVELOPER LICENSE AGREEMENT</name>
+            <url>https://tools.hana.ondemand.com/developer-license-3.1.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Fred Wang</name>
+            <id>I058989</id>
+            <email>fred.wang@sap.com</email>
+        </developer>
+    </developers>
+
+
+    <build>
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webXml>WebContent\WEB-INF\web.xml</webXml>
+                    <warName>helloworld</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <!--profile-->
+
+    <profiles>
+
+        <!--deploy the application in the local server-->
+        <profile>
+            <id>local-integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.sap.cloud</groupId>
+                        <artifactId>neo-java-web-maven-plugin</artifactId>
+                        <version>2.31.10</version>
+                        <executions>
+                            <execution>
+                                <id>install-sdk</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>install-sdk</goal>
+                                </goals>
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>install-local</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>install-local</goal>
+                                </goals>
+
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                    <httpPort>9005</httpPort>
+                                    <httpsPort>9006</httpsPort>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>start-local</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start-local</goal>
+                                </goals>
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>deploy-local</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy-local</goal>
+                                </goals>
+                                <configuration>
+                                    <source>${my.war}</source>
+                                    <_source>${my.war}</_source>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <!--deploy the application in the remote account-->
+        <profile>
+            <id>remote-integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+</project>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>sapui5</groupId>
+    <artifactId>learning</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+
+    <licenses>
+        <license>
+            <name>SAP DEVELOPER LICENSE AGREEMENT</name>
+            <url>https://tools.hana.ondemand.com/developer-license-3.1.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Fred Wang</name>
+            <id>I058989</id>
+            <email>fred.wang@sap.com</email>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>openui5</artifactId>
+            <version>1.28.16</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>sapui5learning</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+
+        <!--deploy the application in the local server-->
+        <profile>
+            <id>local-integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.sap.cloud</groupId>
+                        <artifactId>neo-java-web-maven-plugin</artifactId>
+                        <version>2.31.10</version>
+                        <executions>
+                            <execution>
+                                <id>install-sdk</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>install-sdk</goal>
+                                </goals>
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>install-local</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>install-local</goal>
+                                </goals>
+
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                    <httpPort>9005</httpPort>
+                                    <httpsPort>9006</httpsPort>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>start-local</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start-local</goal>
+                                </goals>
+                                <configuration>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>deploy-local</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy-local</goal>
+                                </goals>
+                                <configuration>
+                                    <source>${project.build.directory}</source>
+                                    <_source>${project.build.directory}</_source>
+                                    <sdkInstallPath>${project.build.directory}/sdk</sdkInstallPath>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <!--deploy the application in the remote account-->
+        <profile>
+            <id>remote-integration-tests</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+
+</project>
