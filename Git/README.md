@@ -1,5 +1,5 @@
 * How to use git, pls refer to [Here](https://github.com/xirong/my-git)
-* git configuration file -------> .gitconfig
+* git configuration file ---> .gitconfig
 
 ```
 [user]
