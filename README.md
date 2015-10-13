@@ -1,6 +1,4 @@
-# 说明
-主要是总结一些平时学习时候遇到的一些小技巧，比如说git，maven什么的
+# Summary
 
-主要的大文件还是放到比如说百度云，或者Google Drive，加上一些link，链接到那些大文件
+use this repository to collect some useful tips during development, for exmample, git, Maven and so on
 
-小的一些command什么的放到这个地方
