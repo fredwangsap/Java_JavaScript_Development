@@ -20,4 +20,3 @@
 	helper = wincred
 
 ```
-
